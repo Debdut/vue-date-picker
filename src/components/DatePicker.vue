@@ -9,8 +9,8 @@
               th= day
           tr(v-for="week in (monthCalendar.length / 7)")
             td(v-for="day in 7"
-            :class="{blue: day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] }}
-      .month-chooser
+            :class="{blue: (week === 1)}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
+      .month-chooser  
       .year-chooser
 </template>
 
@@ -62,6 +62,16 @@ export default {
     monthCalendar () {
       return getMonthCalendar(this.month, this.year)
     }
+  },
+  filters: {
+    doubleCharacter (value) {
+      let valueStr = value.toString()
+      if (valueStr.length === 1) {
+        return 0 + valueStr
+      } else {
+        return value;
+      }
+    }
   }
 }
 </script>
@@ -69,6 +79,6 @@ export default {
 <style lang="sass" scoped>
 .blue
   color: blue
-input:not(:focus) + .date-chooser
-  visibility: hidden
+// input:not(:focus) + .date-chooser
+//   visibility: hidden
 </style>
