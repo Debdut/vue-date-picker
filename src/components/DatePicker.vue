@@ -9,8 +9,9 @@
               th= day
           tr(v-for="week in (monthCalendar.length / 7)")
             td(v-for="day in 7"
-            :class="{blue: (week === 1)}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
-      .month-chooser  
+            class="yellow"
+            :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
+      .month-chooser
       .year-chooser
 </template>
 
@@ -54,7 +55,7 @@ function getMonthCalendar (month, year) {
 export default {
   data () {
     return {
-      month: 2,
+      month: 5,
       year: 2019
     }
   },
@@ -69,7 +70,7 @@ export default {
       if (valueStr.length === 1) {
         return 0 + valueStr
       } else {
-        return value;
+        return value
       }
     }
   }
@@ -77,6 +78,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.yellow
+  color: yellow
+.red
+  color: red
 .blue
   color: blue
 // input:not(:focus) + .date-chooser
