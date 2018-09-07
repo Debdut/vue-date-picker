@@ -1,7 +1,7 @@
 <template lang="pug">
   .date-picker
     input
-    .date-chooser
+    .date-chooser {{ monthName }}
       .day-chooser
         table
           tr
@@ -12,7 +12,13 @@
             class="yellow"
             :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
       .month-chooser
+        table
+          tr(v-for="row in 4")
+            td(v-for="item in 3" @click="findMonthName((row - 1) * 3 + item - 1)") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
       .year-chooser
+        table
+          tr(v-for="row in 3")
+            td(v-for="item in 3")
 </template>
 
 <script>
@@ -55,13 +61,22 @@ function getMonthCalendar (month, year) {
 export default {
   data () {
     return {
-      month: 5,
-      year: 2019
+      year: '2019',
+      month: 0,
+      months: ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'],
+      monthName: 'January',
+      date: '01',
     }
   },
   computed: {
     monthCalendar () {
       return getMonthCalendar(this.month, this.year)
+    }
+  },
+  methods: {
+    findMonthName (value) {
+      this.monthName = this.months[value]
+      this.month = value
     }
   },
   filters: {
@@ -72,6 +87,9 @@ export default {
       } else {
         return value
       }
+    },
+    tripleCharacter (value) {
+      return value.slice(0, 3)
     }
   }
 }
