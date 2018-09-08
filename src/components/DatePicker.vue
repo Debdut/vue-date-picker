@@ -1,8 +1,10 @@
 <template lang="pug">
   .date-picker
     input
-    .date-chooser {{ monthName }}
-      .day-chooser
+    .date-chooser
+      span(@click="calendarView = 'month'") {{ monthName }}
+      span(@click="calendarView = 'year'") {{ year }}
+      .day-chooser(v-if="calendarView === 'day'")
         table
           tr
             each day in ['S', 'M', 'T', 'W', 'T', 'F', 'S']
@@ -11,14 +13,14 @@
             td(v-for="day in 7"
             class="yellow"
             :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
-      .month-chooser
+      .month-chooser(v-if="calendarView === 'month'")
         table
           tr(v-for="row in 4")
-            td(v-for="item in 3" @click="findMonthName((row - 1) * 3 + item - 1)") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
-      .year-chooser
+            td(v-for="item in 3" @click="setMonth((row - 1) * 3 + item - 1)") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
+      .year-chooser(v-if="calendarView === 'year'")
         table
           tr(v-for="row in 3")
-            td(v-for="item in 3")
+            td(v-for="item in 3" @click="setYear(yearArray[(row - 1) * 3 + item - 1])") {{ yearArray[(row - 1) * 3 + item - 1] }}
 </template>
 
 <script>
@@ -58,25 +60,39 @@ function getMonthCalendar (month, year) {
   return calendar
 }
 
+function getYearCalendar (year) {
+  let matrixArray = Array(9).fill(year - 4).map((element, index) => element + index)
+  return matrixArray
+}
+
 export default {
   data () {
     return {
-      year: '2019',
+      year: 2018,
       month: 0,
       months: ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'],
       monthName: 'January',
       date: '01',
+      calendarView: 'day'
     }
   },
   computed: {
     monthCalendar () {
       return getMonthCalendar(this.month, this.year)
+    },
+    yearArray () {
+      return getYearCalendar(this.year)
     }
   },
   methods: {
-    findMonthName (value) {
+    setMonth (value) {
       this.monthName = this.months[value]
       this.month = value
+      this.calendarView = 'day'
+    },
+    setYear (value) {
+      this.year = value
+      this.calendarView = 'day'
     }
   },
   filters: {
