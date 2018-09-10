@@ -1,7 +1,8 @@
 <template lang="pug">
   .date-picker
-    input
-    .date-chooser
+    input(:value="date" @click="select =! select")
+    .date-chooser(v-if="select")
+      span(@click="calendarView = 'day'") {{ day }}
       span(@click="calendarView = 'month'") {{ monthName }}
       span(@click="calendarView = 'year'") {{ year }}
       .day-chooser(v-if="calendarView === 'day'")
@@ -12,6 +13,7 @@
           tr(v-for="week in (monthCalendar.length / 7)")
             td(v-for="day in 7"
             class="yellow"
+            @click="setDay(monthCalendar[(week - 1) * 7 + day - 1])"
             :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
       .month-chooser(v-if="calendarView === 'month'")
         table
@@ -71,9 +73,9 @@ export default {
       year: 2018,
       month: 0,
       months: ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'],
-      monthName: 'January',
-      date: '01',
-      calendarView: 'day'
+      day: 1,
+      calendarView: 'day',
+      select: false
     }
   },
   computed: {
@@ -82,11 +84,20 @@ export default {
     },
     yearArray () {
       return getYearCalendar(this.year)
+    },
+    monthName () {
+      return this.months[this.month]
+    },
+    date () {
+      return `${this.day}/${this.month + 1}/${this.year}`
     }
   },
   methods: {
+    setDay (value) {
+      this.day = value
+      this.select = false
+    },
     setMonth (value) {
-      this.monthName = this.months[value]
       this.month = value
       this.calendarView = 'day'
     },
@@ -118,6 +129,4 @@ export default {
   color: red
 .blue
   color: blue
-// input:not(:focus) + .date-chooser
-//   visibility: hidden
 </style>
