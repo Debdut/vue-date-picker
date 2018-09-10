@@ -13,7 +13,7 @@
           tr(v-for="week in (monthCalendar.length / 7)")
             td(v-for="day in 7"
             class="yellow"
-            @click="setDay(monthCalendar[(week - 1) * 7 + day - 1])"
+            @click="setDay(week ,monthCalendar[(week - 1) * 7 + day - 1])"
             :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
       .month-chooser(v-if="calendarView === 'month'")
         table
@@ -93,9 +93,28 @@ export default {
     }
   },
   methods: {
-    setDay (value) {
-      this.day = value
-      this.select = false
+    setDay (week, value) {
+      if (week === 1 && value < 20) {
+        this.day = value
+        this.select = false
+      } else if (week === 1 && value > 20) {
+        if (this.month === 0) {
+          this.month = 11
+          this.year -= 1
+        } else {
+          this.month -= 1
+        }
+      } else if ((week === 6 || week === 5) && value < 20) {
+        if (this.month === 11) {
+          this.month = 0
+          this.year += 1
+        } else {
+          this.month += 1
+        }
+      } else {
+        this.day = value
+        this.select = false
+      }
     },
     setMonth (value) {
       this.month = value
