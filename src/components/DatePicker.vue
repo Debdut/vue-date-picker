@@ -1,5 +1,5 @@
 <template lang="pug">
-  .date-picker
+  .date-picker(v-shortkey="{enter: ['enter']}" @shortkey="keyEvents")
     input(:value="date" @click="select =! select")
     .date-chooser(v-if="select")
       span(class="icon-arrow-left-circle" @click="setPreviousMonth")
@@ -25,7 +25,7 @@
         table
           tr(v-for="row in 3")
             td(v-for="item in 3" @click="setYear(yearArray[(row - 1) * 3 + item - 1])") {{ yearArray[(row - 1) * 3 + item - 1] }}
-        input(v-model="yearInput")    
+        input(v-model="yearInput")
 </template>
 
 <script>
@@ -97,6 +97,13 @@ export default {
     }
   },
   methods: {
+    keyEvents ({ srcKey }) {
+      if (srcKey === 'enter') {
+        this.year = this.yearInput
+        this.calendarView = 'day'
+      }
+      return 0
+    },
     setDay (week, value) {
       if (week === 1 && value < 20) {
         this.day = value

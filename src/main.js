@@ -4,6 +4,7 @@ import SimpleLineIcons from 'simple-line-icons/css/simple-line-icons.css'
 
 Vue.config.productionTip = false
 Vue.use(SimpleLineIcons)
+Vue.use(require('vue-shortkey'))
 
 new Vue({
   render: h => h(App)
