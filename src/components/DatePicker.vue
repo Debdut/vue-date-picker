@@ -2,9 +2,11 @@
   .date-picker
     input(:value="date" @click="select =! select")
     .date-chooser(v-if="select")
+      span(class="icon-arrow-left-circle" @click="setPreviousMonth")
       span(@click="calendarView = 'day'") {{ day }}
       span(@click="calendarView = 'month'") {{ monthName }}
       span(@click="calendarView = 'year'") {{ year }}
+      span(class="icon-arrow-right-circle" @click="setNextMonth")
       .day-chooser(v-if="calendarView === 'day'")
         table
           tr
@@ -23,6 +25,7 @@
         table
           tr(v-for="row in 3")
             td(v-for="item in 3" @click="setYear(yearArray[(row - 1) * 3 + item - 1])") {{ yearArray[(row - 1) * 3 + item - 1] }}
+        input(v-model="yearInput")    
 </template>
 
 <script>
@@ -75,7 +78,8 @@ export default {
       months: ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'],
       day: 1,
       calendarView: 'day',
-      select: false
+      select: false,
+      yearInput: ''
     }
   },
   computed: {
@@ -123,6 +127,22 @@ export default {
     setYear (value) {
       this.year = value
       this.calendarView = 'day'
+    },
+    setPreviousMonth () {
+      if (this.month === 0) {
+        this.month = 11
+        this.year -= 1
+      } else {
+        this.month -= 1
+      }
+    },
+    setNextMonth () {
+      if (this.month === 11) {
+        this.month = 0
+        this.year += 1
+      } else {
+        this.month += 1
+      }
     }
   },
   filters: {
