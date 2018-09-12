@@ -22,7 +22,7 @@
           tr(v-for="row in 4")
             td(v-for="item in 3" @click="setMonth((row - 1) * 3 + item - 1)") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
       .year-chooser(v-if="calendarView === 'year'")
-        table
+        table(v-wheel="yearScroll")
           tr(v-for="row in 3")
             td(v-for="item in 3" @click="setYear(yearArray[(row - 1) * 3 + item - 1])") {{ yearArray[(row - 1) * 3 + item - 1] }}
         input(v-model="yearInput")
@@ -150,6 +150,10 @@ export default {
       } else {
         this.month += 1
       }
+    },
+    yearScroll (e) {
+      let lastYear = getYearCalendar(this.year)
+      console.log(lastYear)
     }
   },
   filters: {
@@ -175,4 +179,6 @@ export default {
   color: red
 .blue
   color: blue
+.date-chooser + span
+  paddding: 20px
 </style>
