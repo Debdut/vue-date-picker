@@ -1,35 +1,41 @@
 <template lang="pug">
-  .date-picker(v-shortkey="{enter: ['enter']}" @shortkey="keyEvents")
+  .date-picker
     input(:value="date" @click="select =! select")
-    .date-chooser(v-if="select")
-      span(class="icon-arrow-left-circle" @click="setPreviousMonth")
-      span(@click="calendarView = 'day'") {{ day }}
-      span(@click="calendarView = 'month'") {{ monthName }}
-      span(@click="calendarView = 'year'") {{ year }}
-      span(class="icon-arrow-right-circle" @click="setNextMonth")
-      .day-chooser(v-if="calendarView === 'day'")
-        table
-          tr
-            each day in ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-              th= day
-          tr(v-for="week in (monthCalendar.length / 7)")
-            td(v-for="day in 7"
-            class="yellow"
-            @click="setDay(week ,monthCalendar[(week - 1) * 7 + day - 1])"
-            :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
-      .month-chooser(v-if="calendarView === 'month'")
-        table
-          tr(v-for="row in 4")
-            td(v-for="item in 3" @click="setMonth((row - 1) * 3 + item - 1)") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
-      .year-chooser(v-if="calendarView === 'year'")
-        table(v-wheel="yearScroll")
-          tr(v-for="row in 3")
-            td(v-for="item in 3" @click="setYear(yearArray[(row - 1) * 3 + item - 1])") {{ yearArray[(row - 1) * 3 + item - 1] }}
-        input(v-model="yearInput")
+    div(v-if="select" class="bottom ta-center grey lighten-4 pt-5")
+      .current-date(class="grid-col-1 blue-text darken-2")
+        div(class="month fs-13") September
+        div(class="date pt-10 fs-40") 13
+        div(class="day") {{ days[4] }}
+      .date-chooser(class="grid-col-2")
+        div(class="month-year-select ta-center blue-text")
+          span(@click="setPreviousMonth" class="grid-col-1")
+            i(class="fa fa-caret-left" aria-hidden="true")
+          div(class="grid-col-2")
+            span(@click="calendarView = 'month'" class="mr-2") {{ monthName }}
+            span(@click="calendarView = 'year'") {{ year }}
+          span(@click="setNextMonth" class="grid-col-3")
+            i(class="fa fa-caret-right" aria-hidden="true")
+        template(v-if="date")
+        .day-chooser(v-if="calendarView === 'day'")
+          table(v-wheel="scrollMonth" class="ta-center full-width")
+            tr
+              th(v-for="day in days") {{ day | singleCharacter }}
+            tr(v-for="week in (monthCalendar.length / 7)")
+              td(v-for="day in 7"
+              class="yellow-text"
+              @click="setDay(week ,monthCalendar[(week - 1) * 7 + day - 1])"
+              :class="{blue: (week === 1 && monthCalendar[day - 1] > 20) || ((monthCalendar.length / 7) === week && monthCalendar[(week - 1) * 7 + day - 1] < 20), red: day === 7 || day === 1}") {{ monthCalendar[(week - 1) * 7 + day - 1] | doubleCharacter }}
+        .month-chooser(v-if="calendarView === 'month'")
+          table(class="full-width")
+            tr(v-for="row in 4")
+              td(v-for="item in 3" @click="setMonth((row - 1) * 3 + item - 1)" class="ta-center") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
+        .year-chooser(v-if="calendarView === 'year'")
+          table(v-wheel="scrollYear" class="ta-center full-width")
+            tr(v-for="row in 3")
+              td(v-for="item in 3" @click="setYear(years[(row - 1) * 3 + item - 1])") {{ years[(row - 1) * 3 + item - 1] }}
 </template>
 
 <script>
-
 function isLeapYear (year) {
   if (year % 4 !== 0) {
     return false
@@ -66,44 +72,41 @@ function getMonthCalendar (month, year) {
 }
 
 function getYearCalendar (year) {
-  let matrixArray = Array(9).fill(year - 4).map((element, index) => element + index)
-  return matrixArray
+  return Array(9).fill(year - 4).map((element, index) => element + index)
 }
 
 export default {
   data () {
     return {
+      props: {
+        options: Object
+      },
       year: 2018,
       month: 0,
       months: ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'],
       day: 1,
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       calendarView: 'day',
       select: false,
-      yearInput: ''
+      yearInScroll: 2018,
+      selectedDate: null
     }
   },
   computed: {
     monthCalendar () {
       return getMonthCalendar(this.month, this.year)
     },
-    yearArray () {
-      return getYearCalendar(this.year)
+    years () {
+      return getYearCalendar(this.yearInScroll)
     },
     monthName () {
       return this.months[this.month]
     },
     date () {
-      return `${this.day}/${this.month + 1}/${this.year}`
+      return `${this.day} / ${this.month + 1} / ${this.year}`
     }
   },
   methods: {
-    keyEvents ({ srcKey }) {
-      if (srcKey === 'enter') {
-        this.year = this.yearInput
-        this.calendarView = 'day'
-      }
-      return 0
-    },
     setDay (week, value) {
       if (week === 1 && value < 20) {
         this.day = value
@@ -151,12 +154,35 @@ export default {
         this.month += 1
       }
     },
-    yearScroll (e) {
-      let lastYear = getYearCalendar(this.year)
-      console.log(lastYear)
+    scrollYear (e) {
+      if (e.deltaY < 0) {
+        this.yearInScroll -= 3
+      } else {
+        this.yearInScroll += 3
+      }
+    },
+    scrollMonth (e) {
+      if (e.deltaY > 0) {
+        if (this.month === 0) {
+          this.month = 11
+          this.year -= 1
+        } else {
+          this.month -= 1
+        }
+      } else {
+        if (this.month === 11) {
+          this.month = 0
+          this.year += 1
+        } else {
+          this.month += 1
+        }
+      }
     }
   },
   filters: {
+    singleCharacter (value) {
+      return value.slice(0, 1)
+    },
     doubleCharacter (value) {
       let valueStr = value.toString()
       if (valueStr.length === 1) {
@@ -173,12 +199,17 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.yellow
-  color: yellow
-.red
-  color: red
-.blue
-  color: blue
-.date-chooser + span
-  paddding: 20px
+.bottom
+  display: grid
+  grid-template-columns: 2fr 3fr
+  position: absolute
+  z-index: 1000
+  height: 160px
+  width: 250px
+  .month-year-select
+    display: grid
+    grid-template-columns: auto 1fr auto
+  .current-date
+    display: grid
+    grid-template-rows: 1fr 2fr 2fr
 </style>

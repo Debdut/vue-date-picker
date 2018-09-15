@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    date-picker
+    date-picker(:options="{date, month}")
 </template>
 
 <script>
@@ -9,6 +9,12 @@ export default {
   name: 'app',
   components: {
     DatePicker
+  },
+  data () {
+    return {
+      date: true,
+      month: true
+    }
   }
 }
 </script>
@@ -20,4 +26,6 @@ export default {
   -moz-osx-font-smoothing: grayscale
   color: #2c3e50
   margin-top: 60px
+  margin-left: 300px
+  margin-right: 300px
 </style>
