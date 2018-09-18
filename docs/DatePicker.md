@@ -29,6 +29,14 @@
         - **Scroll**
             1. **Scroll Up** ⟶ load previous 3 year
             2. **Scroll Down** ⟶ load next 3 year
+### Quick pick
+1. **Today**
+    - set cuurent date
+2. **Yesterday**
+    - set previous date
+2. **Tomorrow**
+    - set next date
+
 ### Flowchart
 
 ![](date-picker-flowchart.svg)
@@ -49,6 +57,10 @@
         - **Scroll**
             1. **Scroll Up** ⟶ load previous 3 year
             2. **Scroll Down** ⟶ load next 3 year
+### Quick pick
+- **This month**
+    - set current month
+
 ### Flowchart
 
 ![](month-picker-flowchart.svg)
@@ -68,7 +80,7 @@
 
 ![](time-picker-flowchart.svg)
 
-## DateTime Picker
+## Time Picker
 - **Input**
     - **Focus** ⟶ Dialog-Box open with Hour-Chooser
     - **Unfocus** ⟶ Dialog-Box close
@@ -77,11 +89,18 @@
         - **Click** ⟶ open Time-Chooser and set time
     - **Current Date**
         - **Click** ⟶ open Date-Chooser and set date
+
+### Quick pick
+1. last hour
+   - ex ⟶ 12.00 to 1.00
+2. privious hour
+   - ex ⟶ 12.15 to 1.15
+
 ### Flowchart
 
 ![](date-time-picker-flowchart.svg)
 
-## Range Pickers
+## Date-Range Pickers
 - **Input**
     - **Focus** ⟶ Dialog-Box open with Hour-Chooser
     - **Unfocus** ⟶ Dialog-Box close
@@ -91,21 +110,12 @@
     2. **Click** ⟶ select a 2nd date from 2nd date picker and close Dialog-Box
     - **Css** ⟶ range date selected with a different color
 
-## Defaults
-1. **Today**
-    - set cuurent date
-2. **Yesterday**
-    - set previous date
-3. **last 7 days**
+### Quick pick
+1. **last 7 days**
     - set date range from current date - 7
-4. **Last 30 Days**
+2. **Last 30 Days**
     - set date range from current date - 30
-5. **This Month**
+3. **This Month**
     - set date of current month 1st date to last date
-6. **Last Month**
+4. **Last Month**
     - set date of previous month 1st date to last date
-7. **Range Pickers**
-    - open Range Pickers
-
-- **Css**
-    - all features are contain in a dropdown
