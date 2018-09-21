@@ -15,7 +15,6 @@
             span(@click="calendarView = 'year'") {{ year }}
           span(@click="setNextMonth" class="grid-col-3")
             i(class="fa fa-caret-right" aria-hidden="true")
-        template(v-if="date")
         .day-chooser(v-if="calendarView === 'day'")
           table(v-wheel="scrollMonth" class="ta-center full-width")
             tr
@@ -31,7 +30,7 @@
               td(v-for="item in 3" @click="setMonth((row - 1) * 3 + item - 1)" class="ta-center") {{ months[(row - 1) * 3 + item - 1] | tripleCharacter }}
         .year-chooser(v-if="calendarView === 'year'")
           table(v-wheel="scrollYear" class="ta-center full-width")
-            tr(v-for="row in 3")
+            tr(v-for="row in 4")
               td(v-for="item in 3" @click="setYear(years[(row - 1) * 3 + item - 1])") {{ years[(row - 1) * 3 + item - 1] }}
 </template>
 
@@ -72,15 +71,12 @@ function getMonthCalendar (month, year) {
 }
 
 function getYearCalendar (year) {
-  return Array(9).fill(year - 4).map((element, index) => element + index)
+  return Array(12).fill(year - 4).map((element, index) => element + index)
 }
 
 export default {
   data () {
     return {
-      props: {
-        options: Object
-      },
       year: 2018,
       month: 0,
       months: ['January', 'February', 'March', 'April', 'May', 'Jun', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -91,6 +87,9 @@ export default {
       yearInScroll: 2018,
       selectedDate: null
     }
+  },
+  props: {
+    options: Object
   },
   computed: {
     monthCalendar () {

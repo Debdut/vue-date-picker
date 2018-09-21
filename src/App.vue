@@ -1,20 +1,15 @@
 <template lang="pug">
   #app
-    date-picker(:options="{date, month}")
+    date-picker(:options="{ type: 'monthPicker' }")
 </template>
 
 <script>
 import DatePicker from './components/DatePicker'
+
 export default {
   name: 'app',
   components: {
     DatePicker
-  },
-  data () {
-    return {
-      date: true,
-      month: true
-    }
   }
 }
 </script>
