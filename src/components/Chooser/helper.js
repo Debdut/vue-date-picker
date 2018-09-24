@@ -1,4 +1,4 @@
-function isLeapYear (year) {
+export function isLeapYear (year) {
   if (year % 4 !== 0) {
     return false
   } else if (year % 100 !== 0) {
@@ -9,7 +9,7 @@ function isLeapYear (year) {
   return true
 }
 
-function numDaysInMonths (month, year) {
+export function numDaysInMonths (month, year) {
   if ([0, 2, 4, 6, 7, 9, 11].indexOf(month) > -1) {
     return 31
   } else if ([3, 5, 8, 10].indexOf(month) > -1) {
@@ -21,7 +21,7 @@ function numDaysInMonths (month, year) {
   return 28
 }
 
-function getMonthCalendar (month, year) {
+export function getMonthCalendar (month, year) {
   const firstDayOfMonth = new Date(year, month)
   // Filling up the month days in the calendar array
   let calendar = Array(numDaysInMonths(month, year)).fill(0).map((element, index) => index + 1)

@@ -1,11 +1,13 @@
 <template lang="pug">
   .date-picker
-    year(:year="year")
+    day(:month="month" :year="year")
+    month(:month.sync="month")
+    year(:year.sync="year")
 </template>
 
 <script>
-// import Day from './Chooser/Day'
-// import Month from './Chooser/Month'
+import Day from './Chooser/Day'
+import Month from './Chooser/Month'
 import Year from './Chooser/Year'
 // import Hour from './Chooser/Hour'
 // import Minute from './Chooser/Minute'
@@ -15,8 +17,8 @@ const now = new Date()
 
 export default {
   components: {
-    // Day,
-    // Month,
+    Day,
+    Month,
     Year,
     // Hour,
     // Minute,
