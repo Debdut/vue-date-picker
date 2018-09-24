@@ -3121,6 +3121,10 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.1.0"
 
+font-awesome@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+
 for-in@^0.1.3:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"
@@ -5589,6 +5593,10 @@ process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
+"professional-look@https://hindposcommon:jaihind12@gitlab.com/bypkg/professional-look.git":
+  version "0.0.0"
+  resolved "https://hindposcommon:jaihind12@gitlab.com/bypkg/professional-look.git#b8f575d4b2aed6ab5456caeeaed5ae83d77b03f5"
+
 progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
@@ -7210,6 +7218,12 @@ vue-template-es2015-compiler@^1.6.0:
 vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
+
+vuewheel@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/vuewheel/-/vuewheel-2.1.6.tgz#6b574f813e9c5d06bb63cf351eddde4d768900e0"
+  dependencies:
+    lodash "^4.17.4"
 
 watchpack@^1.5.0:
   version "1.6.0"
