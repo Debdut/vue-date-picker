@@ -1,7 +1,9 @@
 <template lang="pug">
   .second-chooser
-    ul
-      li(v-for="i in 6") {{ scopedSecond + i - 1 }}
+    .current-time {{ scopedSecond }}
+    .dot
+    .numbers
+      span(v-for="i in 12") {{ i * 5 }}
 </template>
 
 <script>
@@ -17,14 +19,14 @@ export default {
   mounted () {
     this.$el.addEventListener('wheel', (event) => {
       if (event.deltaY > 0) {
-        if (this.scopedSecond >= 23) {
+        if (this.scopedSecond >= 59) {
           this.scopedSecond = 0
         } else {
           this.scopedSecond += 1
         }
       } else {
         if (this.scopedSecond <= 0) {
-          this.scopedSecond = 23
+          this.scopedSecond = 59
         } else {
           this.scopedSecond -= 1
         }
@@ -39,8 +41,25 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-ul
-  list-style-type: none
-  li:nth-child(1)
-    font-size: 30px
+.second-chooser
+  position: relative
+  .current-time
+    position: absolute
+    height: 100px
+    transform: translateY(100%)
+  .dot
+    height: 100px
+    width: 100px
+    border-radius: 100%
+    color: #000
+  .numbers
+    span
+      height: 100px
+      position: absolute
+      top: 0
+      left: 0
+      transform-origin: 0 100%
+      @for $second from 1 through 12
+        &:nth-child(#{$second})
+          transform: rotate(#{30 * $second}deg)
 </style>
