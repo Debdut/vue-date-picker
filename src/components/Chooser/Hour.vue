@@ -2,9 +2,8 @@
   .hour-chooser
     .current-time {{ scopedHour }}
     .numbers
-      span(v-for="i in 24") {{ i - 1 }}
-      .container
-        .dot
+      .hour(v-for="i in 24")
+        span(:class="{selected: (i - 1) === scopedHour}") {{ i - 1 }}
 </template>
 
 <script>
@@ -55,19 +54,7 @@ export default {
     height: 100px
     transform: translateY(100%)
   .numbers
-    .container
-      height: 100px
-      top: 0
-      left: 0
-      transform-origin: 0 100%
-      transform: rotate(75deg)
-      .dot
-        position: absolute
-        width: 10px
-        height: 10px
-        border-radius: 50%
-        background-color: black
-    span
+    .hour
       height: 100px
       position: absolute
       top: 0
@@ -76,4 +63,8 @@ export default {
       @for $hour from 1 through 24
         &:nth-child(#{$hour})
           transform: rotate(#{15 * ($hour - 1)}deg)
+      .selected
+        position: relative
+        background: blue
+        color: white
 </style>
