@@ -3,7 +3,8 @@
     .current-time {{ scopedMinute }}
     .dot
     .numbers
-      span(v-for="i in 12") {{ i * 5 }}
+      .minute(v-for="i in 12")
+        span(:class="{selected: (i * 5) === scopedMinute}") {{ i * 5 }}
 </template>
 
 <script>
@@ -47,13 +48,8 @@ export default {
     position: absolute
     height: 100px
     transform: translateY(100%)
-  .dot
-    height: 100px
-    width: 100px
-    border-radius: 100%
-    color: #000
   .numbers
-    span
+    .minute
       height: 100px
       position: absolute
       top: 0
@@ -62,4 +58,8 @@ export default {
       @for $minute from 1 through 12
         &:nth-child(#{$minute})
           transform: rotate(#{30 * $minute}deg)
+      .selected
+        position: relative
+        background: blue
+        color: white
 </style>

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { isLeapYear, getMonthCalendar, numDaysInMonths } from './helper'
+import { getMonthCalendar } from './helper'
 export default {
   props: {
     month: Number,
@@ -23,7 +23,7 @@ export default {
   computed: {
     monthCalendar () {
       return getMonthCalendar(this.month, this.year)
-    },
+    }
   },
   filters: {
     singleCharacter (value) {
@@ -36,7 +36,7 @@ export default {
       } else {
         return value
       }
-    },
+    }
   }
 }
 </script>

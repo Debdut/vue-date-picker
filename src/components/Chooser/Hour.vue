@@ -17,10 +17,6 @@ export default {
       scopedHour: this.hour
     }
   },
-  // methods: {
-  //   rotate () {
-  //   }
-  // },
   mounted () {
     this.$el.addEventListener('wheel', (event) => {
       if (event.deltaY > 0) {
@@ -36,7 +32,6 @@ export default {
           this.scopedHour -= 1
         }
       }
-      this.rotate()
       this.$emit('update:hour', this.scopedHour)
     })
   },

@@ -3,7 +3,8 @@
     .current-time {{ scopedSecond }}
     .dot
     .numbers
-      span(v-for="i in 12") {{ i * 5 }}
+      .second(v-for="i in 12")
+        span(:class="{selected: (i * 5) === scopedSecond || (i * 5) < scopedSecond}") {{ i * 5 }}
 </template>
 
 <script>
@@ -53,7 +54,7 @@ export default {
     border-radius: 100%
     color: #000
   .numbers
-    span
+    .second
       height: 100px
       position: absolute
       top: 0
@@ -62,4 +63,8 @@ export default {
       @for $second from 1 through 12
         &:nth-child(#{$second})
           transform: rotate(#{30 * $second}deg)
+      .selected
+        position: relative
+        background: blue
+        color: white
 </style>
