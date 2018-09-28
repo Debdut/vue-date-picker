@@ -1,28 +1,40 @@
 <template lang="pug">
   .date-picker
-    day(:month="month" :year="year")
-    month(:month.sync="month")
-    year(:year.sync="year")
+    template(v-if="options.chooser.includes('day')")
+      day(:month="month" :year="year")
+    template(v-if="options.chooser.includes('month')")
+      month(:month.sync="month")
+    template(v-if="options.chooser.includes('year')")
+      year(:year.sync="year")
+    template(v-if="options.chooser.includes('hour')")
+      hour(:hour.sync="hour")
+    template(v-if="options.chooser.includes('minute')")
+      minute(:minute.sync="minute")
+    template(v-if="options.chooser.includes('second')")
+      second(:second.sync="second")
 </template>
 
 <script>
 import Day from './Chooser/Day'
 import Month from './Chooser/Month'
 import Year from './Chooser/Year'
-// import Hour from './Chooser/Hour'
-// import Minute from './Chooser/Minute'
-// import Second from './Chooser/Second'
+import hour from './Chooser/Hour'
+import minute from './Chooser/Minute'
+import second from './Chooser/Second'
 
 const now = new Date()
 
 export default {
+  props: {
+    options: Object
+  },
   components: {
     Day,
     Month,
     Year,
-    // Hour,
-    // Minute,
-    // Second
+    hour,
+    minute,
+    second
   },
   data () {
     return {
